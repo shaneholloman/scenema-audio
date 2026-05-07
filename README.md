@@ -4,6 +4,8 @@
 
 **[Visit scenema.ai/audio to hear all demos and try it out.](https://scenema.ai/audio)**
 
+[![Demo Video](https://img.youtube.com/vi/NXpe9pqlhCI/maxresdefault.jpg)](https://youtu.be/NXpe9pqlhCI)
+
 Every existing text-to-speech system converts words into sound, but none of them perform. Speech that merely pronounces words correctly is functionally useless for filmmaking, audiobooks, or any context where the emotional delivery carries as much meaning as the words themselves. Scenema Audio generates speech with intention, pacing, breath control, and emotional arcs that shift within a single generation, all from a text prompt that describes not just what to say but how to say it.
 
 Built on an audio diffusion transformer extracted from [LTX 2.3](https://github.com/Lightricks/LTX-2)'s 22B parameter audiovisual model, it learned how people actually sound in real scenes: angry, laughing, whispering, crying, exhausted, terrified.
