@@ -72,6 +72,43 @@ curl -X POST http://localhost:8000/generate \
 
 Any voice can perform any emotion, even if that voice has never been recorded in that emotional state. The reference provides identity. The performance comes from the prompt.
 
+### Web UI (Gradio)
+
+A built-in web interface for experimenting with voice descriptions, action tags, and all generation parameters without writing code.
+
+```bash
+# Enable the web UI
+ENABLE_GRADIO=1 HF_TOKEN=your_token docker compose up
+```
+
+Open [http://localhost:8000/ui](http://localhost:8000/ui) in your browser. The UI provides four tabs:
+
+- **Generate**: Build prompts from individual fields (voice description, speech text, scene, action tags) with preset examples
+- **Voice Design**: Quick 15-second voice previews for iterating on voice descriptions
+- **Voice Cloning**: Upload reference audio and generate with voice identity transfer
+- **Advanced**: Write raw `<speak>` XML directly for full control
+
+For remote GPU servers (Vast.ai, RunPod), forward the port via SSH:
+
+```bash
+ssh -L 8000:localhost:8000 your_gpu_server
+# Then open http://localhost:8000/ui locally
+```
+
+Or use a public share link (no port forwarding needed):
+
+```bash
+ENABLE_GRADIO=1 GRADIO_SHARE=1 HF_TOKEN=your_token docker compose up
+```
+
+The Gradio app can also run standalone (useful for development when the API server is already running):
+
+```bash
+pip install gradio
+python app.py
+# UI at http://localhost:7860
+```
+
 ## Prompt Format
 
 ```xml
@@ -374,6 +411,8 @@ Set in `docker-compose.yml` or pass via `docker run -e`:
 | `GEMMA_QUANTIZE` | `nf4` | Gemma quantization. `nf4` for 24 GB cards, empty for bf16 on 48 GB+ |
 | `PORT` | `8000` | HTTP service port |
 | `MODEL_DIR` | `/app/models` | Base directory for model downloads and cache |
+| `ENABLE_GRADIO` | (empty) | Set to `1` to enable the Gradio web UI at `/ui` |
+| `GRADIO_SHARE` | (empty) | Set to `1` to create a public share link (no port forwarding needed) |
 
 ## Limitations
 

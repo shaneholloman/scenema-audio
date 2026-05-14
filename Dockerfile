@@ -85,7 +85,8 @@ RUN pip install --no-cache-dir \
     "uvicorn[standard]==0.46.0" \
     "httpx==0.28.1" \
     "psutil==7.2.2" \
-    "bitsandbytes==0.49.2"
+    "bitsandbytes==0.49.2" \
+    "gradio>=5.0.0"
 
 # Kokoro TTS (82 MB, CPU-only, baked)
 RUN pip install --no-cache-dir "kokoro==0.9.4" \
@@ -113,6 +114,7 @@ RUN wget -q -O /app/models/MelBandRoformer_fp16.safetensors \
 # Copy service code
 # =============================================================================
 
+COPY app.py /app/app.py
 COPY src/ /app/src/
 COPY tests/ /app/tests/
 
@@ -143,6 +145,6 @@ ENV SEEDVC_PATH=/app/seed-vc
 ENV PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 ENV PORT=8000
 
-EXPOSE 8000
+EXPOSE 8000 7860
 
 CMD ["python3", "-m", "server"]

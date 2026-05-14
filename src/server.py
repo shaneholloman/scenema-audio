@@ -141,6 +141,26 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title="Scenema Audio", lifespan=lifespan)
 
+# ── Gradio UI (optional) ──────────────────────────────────────
+
+if os.environ.get("ENABLE_GRADIO") == "1":
+    try:
+        import gradio as gr
+        # app.py is at repo root, one level above src/
+        import importlib.util
+        _app_path = Path(__file__).resolve().parent.parent / "app.py"
+        _spec = importlib.util.spec_from_file_location("gradio_app", _app_path)
+        _mod = importlib.util.module_from_spec(_spec)
+        _spec.loader.exec_module(_mod)
+        _demo = _mod.create_demo()
+        app = gr.mount_gradio_app(app, _demo, path="/ui")
+        logger.info("Gradio UI mounted at /ui")
+    except ImportError:
+        logger.warning(
+            "ENABLE_GRADIO=1 but gradio is not installed. "
+            "Install with: pip install gradio"
+        )
+
 
 @app.get("/health")
 async def health():
